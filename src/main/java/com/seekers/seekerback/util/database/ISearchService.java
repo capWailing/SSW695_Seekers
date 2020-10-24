@@ -17,7 +17,7 @@ public interface ISearchService {
 	 *               databaseName @param @return @author yzt @return
 	 *               boolean @throws
 	 */
-	public boolean createDatabase(String databaseName);
+	public boolean createDatabase();
 
 	/**
 	 * 

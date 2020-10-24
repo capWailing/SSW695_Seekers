@@ -139,8 +139,8 @@ public class SearchServiceImpl implements ISearchService {
         return deleteResponse.getId();
     }
 
-    public boolean createDatabase(String databaseName) {
-        CreateIndexRequest request = new CreateIndexRequest("twitter");
+    public boolean createDatabase() {
+        CreateIndexRequest request = new CreateIndexRequest("Seekers");
         request.settings(Settings.builder()
                 .put("index.number_of_shards", 3)
                 .put("index.number_of_replicas", 2)
@@ -148,9 +148,12 @@ public class SearchServiceImpl implements ISearchService {
         request.mapping(
                 "{\n" +
                         "  \"properties\": {\n" +
-                        "    \"message\": {\n" +
+                        "    \"id\": {\n" +
                         "      \"type\": \"text\"\n" +
-                        "    }\n" +
+                        "    }," +
+                        "      \"text\": {\n" +
+                        "      \"type\": \"text\"\n" +
+                        "      }\n" +
                         "  }\n" +
                         "}",
                 XContentType.JSON);
