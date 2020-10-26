@@ -10,7 +10,6 @@ import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -140,7 +139,7 @@ public class SearchServiceImpl implements ISearchService {
     }
 
     public boolean createDatabase() {
-        CreateIndexRequest request = new CreateIndexRequest("Seekers");
+        CreateIndexRequest request = new CreateIndexRequest("twitter");
         request.settings(Settings.builder()
                 .put("index.number_of_shards", 3)
                 .put("index.number_of_replicas", 2)
@@ -148,11 +147,11 @@ public class SearchServiceImpl implements ISearchService {
         request.mapping(
                 "{\n" +
                         "  \"properties\": {\n" +
-                        "    \"id\": {\n" +
+                        "    \"text\": {\n" +
                         "      \"type\": \"text\"\n" +
                         "    }," +
-                        "      \"text\": {\n" +
-                        "      \"type\": \"text\"\n" +
+                        "      \"created_at\": {\n" +
+                        "      \"type\": \"time\"\n" +
                         "      }\n" +
                         "  }\n" +
                         "}",
