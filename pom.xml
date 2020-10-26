@@ -19,6 +19,7 @@
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>com.kennycason</groupId>
 			<artifactId>kumo-core</artifactId>
