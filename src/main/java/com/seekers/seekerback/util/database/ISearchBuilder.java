@@ -2,7 +2,7 @@ package com.seekers.seekerback.util.database;
 
 import java.util.Map;
 
-import com.seekers.seekerback.util.database.impl.SearchCondition.Conjunction;
+//import com.seekers.seekerback.util.database.impl.SearchCondition.Conjunction;
 
 /**
  * 
@@ -78,9 +78,9 @@ public interface ISearchBuilder extends Cloneable {
 	     * @return ISearchBuilder
 	     * @throws
 	 */
-	public ISearchBuilder filterFieldByChild(String fieldName, String fieldValue, Operator op, Conjunction conjunction);
+	//public ISearchBuilder filterFieldByChild(String fieldName, String fieldValue, Operator op, Conjunction conjunction);
 	
-	public ISearchBuilder filterFieldByChild(String fieldName, String[] fieldValues, Operator op, Conjunction conjunction);
+	//public ISearchBuilder filterFieldByChild(String fieldName, String[] fieldValues, Operator op, Conjunction conjunction);
 
 
 	/**
