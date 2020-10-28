@@ -1,6 +1,7 @@
 package com.seekers.seekerback.controller;
 
 import com.seekers.seekerback.entities.WordCloud;
+import com.seekers.seekerback.service.Repository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ public class WordCloudController {
 
     @PostMapping("/wordcloud")
     public String getWordCloud(@RequestParam("id") String id){
+        Repository.store(id);
         WordCloud result = new WordCloud(id);
         return result.getUrl();
     }

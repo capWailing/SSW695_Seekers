@@ -10,6 +10,7 @@ import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -206,7 +207,7 @@ public class SearchServiceImpl implements ISearchService {
         for (int i = 0; i < idList.size(); i++) {
             Map<String, Object> itemMap = objectList.get(i);
 
-            bulkRequest.add(new UpdateRequest(database, idList.get(i)).doc(itemMap));
+            bulkRequest.add(new IndexRequest(database).id(idList.get(i)).source(itemMap));
         }
         BulkResponse bulkResponse = null;
         try {
@@ -215,7 +216,7 @@ public class SearchServiceImpl implements ISearchService {
                 return bulkResponse.buildFailureMessage();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.info(e.getMessage());
         }
 
         return "success";
