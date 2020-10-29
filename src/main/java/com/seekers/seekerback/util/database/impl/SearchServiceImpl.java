@@ -140,7 +140,7 @@ public class SearchServiceImpl implements ISearchService {
     }
 
     public boolean createDatabase() {
-        CreateIndexRequest request = new CreateIndexRequest("Seekers");
+        CreateIndexRequest request = new CreateIndexRequest("twitter");
         request.settings(Settings.builder()
                 .put("index.number_of_shards", 3)
                 .put("index.number_of_replicas", 2)
@@ -148,11 +148,11 @@ public class SearchServiceImpl implements ISearchService {
         request.mapping(
                 "{\n" +
                         "  \"properties\": {\n" +
-                        "    \"id\": {\n" +
+                        "    \"text\": {\n" +
                         "      \"type\": \"text\"\n" +
                         "    }," +
-                        "      \"text\": {\n" +
-                        "      \"type\": \"text\"\n" +
+                        "      \"created_at\": {\n" +
+                        "      \"type\": \"time\"\n" +
                         "      }\n" +
                         "  }\n" +
                         "}",
@@ -207,7 +207,7 @@ public class SearchServiceImpl implements ISearchService {
         for (int i = 0; i < idList.size(); i++) {
             Map<String, Object> itemMap = objectList.get(i);
 
-            bulkRequest.add(new UpdateRequest(database, idList.get(i)).doc(itemMap));
+            bulkRequest.add(new IndexRequest(database).id(idList.get(i)).source(itemMap));
         }
         BulkResponse bulkResponse = null;
         try {
@@ -216,7 +216,7 @@ public class SearchServiceImpl implements ISearchService {
                 return bulkResponse.buildFailureMessage();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.info(e.getMessage());
         }
 
         return "success";
