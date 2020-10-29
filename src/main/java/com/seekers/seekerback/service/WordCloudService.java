@@ -14,8 +14,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordCloud {
-    public static void main(String[] args) throws IOException {
+//业余
+
+public class WordCloudService {
+    public static String getGraph(String id) {
         //Fetch data from database
         List<String> text = new ArrayList<String>();
         List<String> text1 = new ArrayList<String>();
@@ -30,6 +32,7 @@ public class WordCloud {
             text1.add(iSearchService.get("twitter", e).toString());
         }
         System.out.println(text1);
+
         for (String e: text1) {
             if(e.length()>31) {
                 System.out.println(e.substring(30, e.length() - 1));
@@ -60,5 +63,7 @@ public class WordCloud {
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("./datarank_wordcloud_circle_sqrt_font.png");
+
+        return "success";
     }
 }
