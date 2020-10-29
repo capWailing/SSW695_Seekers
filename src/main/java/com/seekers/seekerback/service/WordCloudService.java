@@ -1,5 +1,6 @@
 package com.seekers.seekerback.service;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.bg.CircleBackground;
@@ -13,45 +14,52 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import com.alibaba.fastjson.*;
 
 //业余
 
 public class WordCloudService {
+    public static void main(String[] args) {
+        String sss = "";
+        getGraph(sss);
+    }
+
     public static String getGraph(String id) {
         //Fetch data from database
-        List<String> text = new ArrayList<String>();
-        List<String> text1 = new ArrayList<String>();
-        List<String> text3 = new ArrayList<String>();
-        String text2 = "";
+        List<Map<String, Object>> text1_json = new ArrayList<>();
+
+        List<String> text3 = new ArrayList<>();
 
         ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
         List<String> result = iSearchService.idQuery("twitter");
-        for (String e: result) {
-            System.out.println(iSearchService.get("twitter", e));
-
-            text1.add(iSearchService.get("twitter", e).toString());
+        for (String e : result) {
+//            System.out.println(e);
+//            System.out.println(iSearchService.get("twitter", e));
+            text1_json.add(iSearchService.get("twitter", e));
         }
-        System.out.println(text1);
+//        System.out.println(text1_json);
 
-        for (String e: text1) {
-            if(e.length()>31) {
-                System.out.println(e.substring(30, e.length() - 1));
-                text.add(e.substring(30, e.length() - 1)
-                        //remove something here
-                        //url
-                        .replaceAll("http\\S+", "")
-                        //time
-                        .replaceAll("\\d:\\d\\dpmE", ""));
-            }
+        for (Map<String, Object> e : text1_json) {
+            System.out.println(e.get("text"));
+            text3.add(e.get("text").toString()
+                    //remove something here
+                    //url
+                    .replaceAll("http\\S+", "")
+                    //time
+                    .replaceAll("\\d:\\d\\dpmE", ""));
+                    //stop word dictionary should be here
 
         }
-        for (String e:text){
-            text2= text2.concat(e);
-            text2= text2.concat(" ");
-        }
+//        for (String e:text){
+//            text2= text2.concat(e);
+//            text2= text2.concat(" ");
+//        }
+//
+//        System.out.println(text2);
+//        text3.add(text2);
 
-        System.out.println(text2);
-        text3.add(text2);
         //Kumo API start from here, include frequency analyzer and image generate.
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(text3);
@@ -64,6 +72,7 @@ public class WordCloudService {
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("./datarank_wordcloud_circle_sqrt_font.png");
 
+        //response for service
         return "success";
     }
 }

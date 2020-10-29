@@ -25,6 +25,7 @@ public interface ISearchService {
 	 *               table @param @param id @param @return @param @throws
 	 *               SearchException @author yzt @return Map
 	 *               <String,Object> @throws
+	 * @return
 	 */
 	public Map<String, Object> get(String database, String id);
 
