@@ -19,9 +19,13 @@ public class WordCloudController {
 
     @PostMapping("/wordcloud")
     public String getWordCloud(@RequestParam("id") String id){
-        Repository.store(id);
+        boolean re = Repository.store(id);
         return WordCloudService.getGraph(id);
     }
 
-
+    @PostMapping("/save")
+    public String save(@RequestParam("id") String id){
+        boolean re = Repository.store(id);
+        return Boolean.toString(re);
+    }
 }

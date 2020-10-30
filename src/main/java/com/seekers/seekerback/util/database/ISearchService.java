@@ -90,7 +90,7 @@ public interface ISearchService {
 	 *               objectList @param @return @param @throws
 	 *               SearchException @author yzt @return String @throws
 	 */
-	public String bulkUpsert(String database, List<String> idList, List<Map<String, Object>> objectList);
+	public boolean bulkUpsert(String database, List<String> idList, List<Map<String, Object>> objectList);
 
 	/**
 	 * 

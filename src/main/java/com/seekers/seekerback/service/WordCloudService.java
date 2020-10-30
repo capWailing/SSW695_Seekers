@@ -21,10 +21,10 @@ import com.alibaba.fastjson.*;
 //业余
 
 public class WordCloudService {
-    public static void main(String[] args) {
-        String sss = "";
-        getGraph(sss);
-    }
+//    public static void main(String[] args) {
+//        String sss = "";
+//        getGraph(sss);
+//    }
 
     public static String getGraph(String id) {
         //Fetch data from database
@@ -70,6 +70,7 @@ public class WordCloudService {
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         wordCloud.build(wordFrequencies);
+
         wordCloud.writeToFile("./datarank_wordcloud_circle_sqrt_font.png");
 
         //response for service
