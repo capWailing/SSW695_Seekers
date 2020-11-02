@@ -36,21 +36,22 @@ public class Repository {
         }
         LOGGER.info(idList.toString());
         LOGGER.info(textList.toString());
-        String result = iSearchService.bulkUpsert("twitter", idList, textList);
-        LOGGER.info(result);
+        boolean result = iSearchService.bulkUpsert("twitter", idList, textList);
         iSearchService.close();
-        return "success".equals(result);
+        return result;
     }
 
-    public static void store(String id){
+    public static boolean store(String id){
         Crawler crawler = new Crawler(id);
-        crawler.setMaxResults("100");
+        crawler.setMaxResults("10");
         crawler.setCreatedTime();
         try {
             boolean rs = insertIntoES(crawler.search());
             LOGGER.info("Bulk upsert " + rs);
+            return rs;
         } catch (IOException | URISyntaxException e) {
             LOGGER.info(e.getMessage());
+            return false;
         }
     }
 

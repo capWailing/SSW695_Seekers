@@ -199,9 +199,9 @@ public class SearchServiceImpl implements ISearchService {
         return false;
     }
 
-    public String bulkUpsert(String database, List<String> idList, List<Map<String, Object>> objectList) {
+    public boolean bulkUpsert(String database, List<String> idList, List<Map<String, Object>> objectList) {
         if (idList.isEmpty() || objectList.size() != idList.size()) {
-            return null;
+            return false;
         }
 
         BulkRequest bulkRequest = new BulkRequest();
@@ -214,14 +214,17 @@ public class SearchServiceImpl implements ISearchService {
         BulkResponse bulkResponse = null;
         try {
             bulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);
+
             if (bulkResponse.hasFailures()) {
-                return bulkResponse.buildFailureMessage();
+                return false;
             }
+            LOGGER.info(bulkResponse.status().toString());
+            return bulkResponse.status().getStatus() != 0;
         } catch (IOException e) {
             LOGGER.info(e.getMessage());
+            return false;
         }
 
-        return "success";
 
     }
 
