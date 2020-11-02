@@ -13,6 +13,7 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -209,6 +210,7 @@ public class SearchServiceImpl implements ISearchService {
 
             bulkRequest.add(new IndexRequest(database).id(idList.get(i)).source(itemMap));
         }
+        bulkRequest.setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
         BulkResponse bulkResponse = null;
         try {
             bulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);
