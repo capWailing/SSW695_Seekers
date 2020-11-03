@@ -2,6 +2,7 @@ package com.seekers.seekerback.controller;
 
 import com.seekers.seekerback.entities.WordCloud;
 import com.seekers.seekerback.service.Repository;
+import com.seekers.seekerback.service.WordCloudService;
 import com.seekers.seekerback.util.stream.StreamUtil;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,8 +26,7 @@ public class WordCloudController {
     @PostMapping("/wordcloud")
     public String getWordCloud(@RequestParam("id") String id){
         Repository.store(id);
-        WordCloud result = new WordCloud(id);
-        String url = result.getUrl();
+        String url = WordCloudService.getGraph(id);
         return StreamUtil.uploadImage(url);
     }
 }

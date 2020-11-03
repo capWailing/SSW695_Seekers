@@ -74,6 +74,6 @@ public class WordCloudService {
         wordCloud.writeToFile("./datarank_wordcloud_circle_sqrt_font.png");
 
         //response for service
-        return "success";
+        return "./datarank_wordcloud_circle_sqrt_font.png";
     }
 }
