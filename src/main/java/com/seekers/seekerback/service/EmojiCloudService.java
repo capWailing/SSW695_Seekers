@@ -111,9 +111,7 @@ public class EmojiCloudService {
             wordFrequencies.add(new WordFrequency(key, value));
 
         }
-//        for (final String emoji : EMOJIS) {
-//            wordFrequencies.add(new WordFrequency(emoji, RANDOM.nextInt(250)));
-//        }
+
 
         System.out.println(wordFrequencies);
         return wordFrequencies;
@@ -163,46 +161,6 @@ public class EmojiCloudService {
 
 
 
-    //for testing
-    private static final Random RANDOM = new Random();
-
-    private static final String[] EMOJIS = {
-            "TEST6858678",
-            "\uD83D\uDC4D",
-            "\uD83D\uDE0A",
-            "\uD83D\uDE01",
-            "\uD83D\uDE12",
-            "\uD83D\uDE11",
-            "\uD83D\uDE0D",
-            "\uD83D\uDC4C",
-            "\uD83D\uDC55",
-            "\uD83D\uDCAA",
-            "\uD83D\uDE4C",
-            "\uD83D\uDE2D",
-            "\uD83D\uDE29",
-            "\uD83D\uDE21",
-            "\uD83D\uDD25",
-            "\uD83D\uDE33",
-            "\uD83D\uDD25",
-            "\uD83D\uDE21",
-            "\uD83D\uDCA9",
-            "\uD83D\uDC7B",
-            "\uD83D\uDC7D",
-            "\uD83D\uDC57",
-            "\uD83D\uDD25",
-            "\uD83C\uDF53",
-            "\uD83C\uDFB1",
-            "\uD83C\uDFA7",
-            "\uD83D\uDE91",
-            "\uD83C\uDFEB",
-            "\uD83D\uDCBE",
-            "\uD83D\uDCAF",
-            "\uD83D\uDE32",
-            "\uD83D\uDE31",
-            "\uD83D\uDE0F",
-            "\uD83D\uDC44",
-            "\uD83D\uDC40"
-    };
 
 
     public static void main(String[] args) throws IOException{
