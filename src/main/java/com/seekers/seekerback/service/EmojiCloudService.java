@@ -27,30 +27,62 @@ public class EmojiCloudService {
     public static List<WordFrequency> getEmojiFrequency (int id) {
 
 
+        List<Map<String, Object>> text1_json = new ArrayList<>();
+
+        List<String> text3 = new ArrayList<>();
+
+        ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
+        List<String> result = iSearchService.idQuery("twitter");
+        for (String e : result) {
+//            System.out.println(e);
+//            System.out.println(iSearchService.get("twitter", e));
+            text1_json.add(iSearchService.get("twitter", e));
+        }
+//        System.out.println(text1_json);
+
+        for (Map<String, Object> e : text1_json) {
+            System.out.println(e.get("text"));
+            text3.add(e.get("text").toString()
+                    //remove something here
+                    //url
+                    .replaceAll("http\\S+", "")
+                    //time
+                    .replaceAll("\\d:\\d\\dpmE", ""));
+            //stop word dictionary should be here
+
+        }
+//        for (String e:text){
+//            text2= text2.concat(e);
+//            text2= text2.concat(" ");
+//        }
+//
+//        System.out.println(text2);
+//        text3.add(text2);
+
 //        List<String> text = new ArrayList();
 //        text.add("\uD83D\uDE32sdfsadf");
 //        text.add("\uD83D\uDC44fsdf");
 //        text.add("kumokumo");
-
+//
 //        ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
 //        for (int i = 0; i < 10; i++){
 //            iSearchService.getByJson(id);
-//
-//
-//        }
+
+
+        }
 
 
 
 //get data from database as json, parse it into a emoji word frequency
 //not finished, for testing
 
-        final List<WordFrequency> wordFrequencies = new ArrayList<>();
-        for (final String emoji : EMOJIS) {
-            wordFrequencies.add(new WordFrequency(emoji, RANDOM.nextInt(250)));
-        }
-        return wordFrequencies;
-
-    }
+//        final List<WordFrequency> wordFrequencies = new ArrayList<>();
+//        for (final String emoji : EMOJIS) {
+//            wordFrequencies.add(new WordFrequency(emoji, RANDOM.nextInt(250)));
+//        }
+//        return wordFrequencies;
+//
+//    }
 
 
     public static String getEmojiCloudGraph(int id) throws IOException {
