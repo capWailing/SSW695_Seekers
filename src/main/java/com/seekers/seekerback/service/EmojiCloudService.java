@@ -1,5 +1,7 @@
 package com.seekers.seekerback.service;
 
+import com.seekers.seekerback.util.database.ISearchService;
+import com.seekers.seekerback.util.database.impl.SearchServiceImpl;
 
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.WordCloud;
@@ -17,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import com.alibaba.fastjson.*;
 import com.seekers.seekerback.util.database.ISearchService;
@@ -34,11 +37,11 @@ public class EmojiCloudService {
         ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
         List<String> result = iSearchService.idQuery("twitter");
         for (String e : result) {
-//            System.out.println(e);
-//            System.out.println(iSearchService.get("twitter", e));
+            //System.out.println(e);
+            //System.out.println(iSearchService.get("twitter", e));
             text1_json.add(iSearchService.get("twitter", e));
         }
-//        System.out.println(text1_json);
+        System.out.println(text1_json);
 
         for (Map<String, Object> e : text1_json) {
             System.out.println(e.get("text"));
@@ -69,20 +72,20 @@ public class EmojiCloudService {
 //            iSearchService.getByJson(id);
 
 
-        }
+
 
 
 
 //get data from database as json, parse it into a emoji word frequency
 //not finished, for testing
 
-//        final List<WordFrequency> wordFrequencies = new ArrayList<>();
-//        for (final String emoji : EMOJIS) {
-//            wordFrequencies.add(new WordFrequency(emoji, RANDOM.nextInt(250)));
-//        }
-//        return wordFrequencies;
-//
-//    }
+        final List<WordFrequency> wordFrequencies = new ArrayList<>();
+        for (final String emoji : EMOJIS) {
+            wordFrequencies.add(new WordFrequency(emoji, RANDOM.nextInt(250)));
+        }
+        return wordFrequencies;
+
+    }
 
 
     public static String getEmojiCloudGraph(int id) throws IOException {
@@ -166,7 +169,7 @@ public class EmojiCloudService {
 
 
     public static void main(String[] args) throws IOException{
-        getEmojiCloudGraph(0);
+        getEmojiFrequency(0);
     }
 
 
