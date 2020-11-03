@@ -27,7 +27,7 @@ public class ISearchServiceTest {
         idList.add("1320508566822739969");
         idList.add("1321567946133569536");
         List<Map<String, Object>> mapList = new ArrayList<>();
-        mapList = (List<Map<String, Object>>) JSON.parse("[{\"created_at\":\"2020-10-25T23:33:45.000Z\",\"text\":\"@LionessMo\\uD83D\\uDCAFnbebe \\uD83D\\uDCAF@WayV_official \\uD83D\\uDE0FHehe thank you!! \\uD83D\\uDE0FI just love it so much \\uD83D\\uDE04\\uD83D\\uDE04\\uD83D\\uDE04\\uD83D\\uDE04\"},{\"created_at\":\"2020-10-28T21:42:06.000Z\",\"text\":\"(T/N\\uD83D\\uDE0F\\uD83D\\uDE0F\\uD83D\\uDE0F: this is the MV \\uD83D\\uDD25\\uD83D\\uDD25for \\\"More\\\" by \\uD83D\\uDE33\\uD83D\\uDE33K/DA)\"}]");
+        mapList = (List<Map<String, Object>>) JSON.parse("[{\"created_at\":\"2020-11-25T23:33:45.000Z\",\"text\":\"@LionessMo\\uD83D\\uDCAF\\uD83D\\uDCAF\\uD83C\\uDF05\\uD83D\\uDEE5\\uD83E\\uDD70\\nbebe \\uD83D\\uDCAF@WayV_official \\uD83D\\uDE0FHehe thank you!! \\uD83D\\uDE0FI just love it so much \\uD83D\\uDE04\\uD83D\\uDE04\\uD83D\\uDE04\\uD83D\\uDE04\"},{\"created_at\":\"2020-10-28T21:42:06.000Z\",\"text\":\"(T/N\\uD83D\\uDE0F\\uD83D\\uDE0F\\uD83D\\uDE0F: this is the MV \\uD83D\\uDD25\\uD83D\\uDD25for \\\"More\\\" by \\uD83D\\uDE33\\uD83D\\uDE33K/DA)\"}]");
         System.out.println(iSearchService.bulkUpsert("twitter", idList, mapList));
 
         iSearchService.close();

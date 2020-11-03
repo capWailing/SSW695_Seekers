@@ -17,17 +17,19 @@ import com.kennycason.kumo.palette.LinearGradientColorPalette;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.alibaba.fastjson.*;
 import com.seekers.seekerback.util.database.ISearchService;
 import com.seekers.seekerback.util.database.impl.SearchServiceImpl;
 
 public class EmojiCloudService {
 
-    public static List<WordFrequency> getEmojiFrequency (int id) {
+    public static List<WordFrequency> getEmojiFrequency (int id) throws UnsupportedEncodingException {
 
 
         List<Map<String, Object>> text1_json = new ArrayList<>();
@@ -37,53 +39,87 @@ public class EmojiCloudService {
         ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
         List<String> result = iSearchService.idQuery("twitter");
         for (String e : result) {
-            //System.out.println(e);
-            //System.out.println(iSearchService.get("twitter", e));
+//            System.out.println(e);
+//            System.out.println(iSearchService.get("twitter", e));
             text1_json.add(iSearchService.get("twitter", e));
         }
-        System.out.println(text1_json);
+
+
+        iSearchService.close();
+        //System.out.println(text1_json);
+
+        String emojiRe = "[\\ud800\\udc00-\\udbff\\udfff\\ud800-\\udfff]";
+        Pattern r = Pattern.compile(emojiRe);
+        Matcher m;
+
+        //String newStr;
+
+        //String onlyEmoji = " ";
+
+
+
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        int temp = 0;
 
         for (Map<String, Object> e : text1_json) {
-            System.out.println(e.get("text"));
-            text3.add(e.get("text").toString()
-                    //remove something here
-                    //url
-                    .replaceAll("http\\S+", "")
-                    //time
-                    .replaceAll("\\d:\\d\\dpmE", ""));
-            //stop word dictionary should be here
+//            text3.add(e.get("text").toString()
+//                    .replaceAll("\\w*", "")
+//                    //.replaceAll("\\\\u[A-Z0-9]{4}\\\\u[A-Z0-9]{4}", "")
+//                    .replaceAll("[!\\\"#$%&'()*+,-./:;<=>?@\\\\\\\\\\\\[\\\\]^_`{|}~]*", "")
+//                    .replaceAll("[\\\\ud800\\\\udc00-\\\\udbff\\\\udfff\\\\ud800-\\\\udfff]", "")
+
+
+
+            //newStr = new String(e.get("text").toString().getBytes(), "UTF-8");
+            m = r.matcher(e.get("text").toString());
+            System.out.println(e.get("text").toString());
+//            System.out.println(m.find());
+
+
+            while(m.find()) {
+                //System.out.println("**********************");
+                //onlyEmoji = onlyEmoji + " " + m.group() + "l";
+
+                if (map.get(m.group()) == null) {
+                    map.put(m.group(), 1);
+                } else {
+                    temp = map.get(m.group())+1;
+                    map.put(m.group(), temp);
+
+                }
+            }
+
+            //text3.add(onlyEmoji);
 
         }
-//        for (String e:text){
-//            text2= text2.concat(e);
-//            text2= text2.concat(" ");
-//        }
-//
-//        System.out.println(text2);
-//        text3.add(text2);
 
-//        List<String> text = new ArrayList();
-//        text.add("\uD83D\uDE32sdfsadf");
-//        text.add("\uD83D\uDC44fsdf");
-//        text.add("kumokumo");
-//
-//        ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
-//        for (int i = 0; i < 10; i++){
-//            iSearchService.getByJson(id);
+
+//        System.out.println(text3);
+//        return text3;
 
 
 
-
-
-
-//get data from database as json, parse it into a emoji word frequency
-//not finished, for testing
 
         final List<WordFrequency> wordFrequencies = new ArrayList<>();
-        for (final String emoji : EMOJIS) {
-            wordFrequencies.add(new WordFrequency(emoji, RANDOM.nextInt(250)));
+
+
+        for (Map.Entry<String, Integer> entry: map.entrySet()) {
+
+            String key = entry.getKey();
+
+            Integer value = entry.getValue();
+            wordFrequencies.add(new WordFrequency(key, value));
+
         }
+//        for (final String emoji : EMOJIS) {
+//            wordFrequencies.add(new WordFrequency(emoji, RANDOM.nextInt(250)));
+//        }
+
+        System.out.println(wordFrequencies);
         return wordFrequencies;
+
+
+
 
     }
 
@@ -100,6 +136,7 @@ public class EmojiCloudService {
         //load frequency using getEmojiFrequency, need to give id to it
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.loadWordFrequencies(getEmojiFrequency(id));
+                //loadWordFrequencies(getEmojiFrequency(id));
 
         //new wordcloud object
 
@@ -169,7 +206,9 @@ public class EmojiCloudService {
 
 
     public static void main(String[] args) throws IOException{
-        getEmojiFrequency(0);
+        getEmojiCloudGraph(0);
+        //getEmojiFrequency(0);
+
     }
 
 
