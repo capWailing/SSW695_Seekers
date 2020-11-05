@@ -45,17 +45,5 @@ public class TrendChartService {
                 false);//是否支持超链接
         return chart;
     }
-    // 本地测试
-    public static void main(String[] args) throws IOException {
-//        ChartFrame cf = new ChartFrame("Test", createChart());
-//        cf.pack();
-//        cf.setVisible(true);
-        JFreeChart chart= createChart();
 
-        OutputStream os = new FileOutputStream("company.jpeg");//图片是文件格式的，故要用到FileOutputStream用来输出。
-        ChartUtilities.writeChartAsJPEG(os, chart, 1000, 800);
-        //使用一个面向application的工具类，将chart转换成JPEG格式的图片。第3个参数是宽度，第4个参数是高度。
-
-        os.close();//关闭输出流
-    }
 }

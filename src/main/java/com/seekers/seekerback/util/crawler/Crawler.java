@@ -152,12 +152,4 @@ public class Crawler {
 
     }
 
-    public static void main(String[] args) throws IOException, URISyntaxException {
-        Crawler crawler = new Crawler("WayVSubs2019");
-        // set max results 10~100
-        crawler.setMaxResults("100");
-        // only 10
-        String re = crawler.search();
-        crawler.save(re, "emoji100.json");
-    }
 }
