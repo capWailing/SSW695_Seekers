@@ -1,19 +1,13 @@
 package com.seekers.seekerback.controller;
 
-import com.seekers.seekerback.entities.WordCloud;
 import com.seekers.seekerback.service.Repository;
 import com.seekers.seekerback.service.WordCloudService;
-import com.seekers.seekerback.util.stream.StreamUtil;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URL;
 
 /**
  * program: seeker-back
