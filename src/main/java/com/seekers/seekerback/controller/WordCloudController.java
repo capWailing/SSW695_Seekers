@@ -18,21 +18,12 @@ import java.io.*;
 
 @RestController
 public class WordCloudController {
-//    @PostMapping(value = "/send")
-//    @ResponseStatus(HttpStatus.OK)
-//    public void getId(@RequestParam("id") String id){
-//        Repository.store(id);
-//    }
-
     @GetMapping(value = "/wordcloud", produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] getWordCloud(@RequestParam("id") String id) throws IOException {
         Repository.store(id);
-        String filePath = WordCloudService.getGraph();
-        FileInputStream inputStream = new FileInputStream(filePath);
-        byte[] bytes = new byte[inputStream.available()];
-        inputStream.read(bytes, 0, inputStream.available());
-        inputStream.close();
-        return bytes;
+        ByteArrayOutputStream outputStream = null;
+        outputStream = WordCloudService.getGraph();
+        return outputStream.toByteArray();
     }
 
     @GetMapping(value = "/emojicloud", produces = MediaType.IMAGE_PNG_VALUE)

@@ -11,6 +11,8 @@ import com.seekers.seekerback.util.database.ISearchService;
 import com.seekers.seekerback.util.database.impl.SearchServiceImpl;
 
 import java.awt.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +29,7 @@ public class WordCloudService {
 //        getGraph(sss);
 //    }
 
-    public static String getGraph() {
+    public static ByteArrayOutputStream getGraph() {
         //Fetch data from database
         List<Map<String, Object>> text1_json = new ArrayList<>();
 
@@ -78,11 +80,10 @@ public class WordCloudService {
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
         wordCloud.setFontScalar(new SqrtFontScalar(10,100));
         wordCloud.build(wordFrequencies);
-        //TODO: change the filePath
-        String filePath = "./datarank_wordcloud_circle_sqrt_font.png";
-        wordCloud.writeToFile(filePath);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        wordCloud.writeToStreamAsPNG(outputStream);
 
         //response for service
-        return filePath;
+        return outputStream;
     }
 }
