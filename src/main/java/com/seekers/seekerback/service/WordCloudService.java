@@ -26,7 +26,7 @@ public class WordCloudService {
 //        getGraph(sss);
 //    }
 
-    public static String getGraph(String id) {
+    public static String getGraph() {
         //Fetch data from database
         List<Map<String, Object>> text1_json = new ArrayList<>();
 
