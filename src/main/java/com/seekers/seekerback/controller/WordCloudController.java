@@ -3,6 +3,7 @@ package com.seekers.seekerback.controller;
 import com.seekers.seekerback.service.EmojiCloudService;
 import com.seekers.seekerback.service.Repository;
 import com.seekers.seekerback.service.WordCloudService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ import java.io.*;
 @RestController
 public class WordCloudController {
     @PostMapping(value = "/send")
+    @ResponseStatus(HttpStatus.OK)
     public void getId(@RequestParam("id") String id){
         Repository.store(id);
     }
