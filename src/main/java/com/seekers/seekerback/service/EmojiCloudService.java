@@ -148,7 +148,7 @@ public class EmojiCloudService {
         wordCloud.setPadding(2);
         //wordCloud.setBackground(new PixelBoundryBackground("backgrounds/whale_small.png"));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
-        wordCloud.setFontScalar(new LinearFontScalar(10, 40));
+        wordCloud.setFontScalar(new LinearFontScalar(10, 100));
 
         //build wordcloud with wordFrequencies at line 65
         wordCloud.build(wordFrequencies);

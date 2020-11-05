@@ -43,7 +43,7 @@ public class Repository {
 
     public static boolean store(String id){
         Crawler crawler = new Crawler(id);
-        crawler.setMaxResults("10");
+        crawler.setMaxResults("100");
         crawler.setCreatedTime();
         try {
             boolean rs = insertIntoES(crawler.search());
