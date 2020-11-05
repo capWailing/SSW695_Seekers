@@ -4,6 +4,8 @@ import com.seekers.seekerback.entities.WordCloud;
 import com.seekers.seekerback.service.Repository;
 import com.seekers.seekerback.service.WordCloudService;
 import com.seekers.seekerback.util.stream.StreamUtil;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,10 +25,13 @@ import java.net.URL;
 @RestController
 public class WordCloudController {
 
-    @PostMapping("/wordcloud")
-    public String getWordCloud(@RequestParam("id") String id){
+    @GetMapping(value = "/wordcloud", produces = MediaType.IMAGE_PNG_VALUE)
+    public byte[] getWordCloud(@RequestParam("id") String id) throws IOException {
         Repository.store(id);
-        String url = WordCloudService.getGraph(id);
-        return StreamUtil.uploadImage(url);
+        String filePath = WordCloudService.getGraph(id);
+        FileInputStream inputStream = new FileInputStream(filePath);
+        byte[] bytes = new byte[inputStream.available()];
+        inputStream.read(bytes, 0, inputStream.available());
+        return bytes;
     }
 }
