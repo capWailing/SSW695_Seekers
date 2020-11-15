@@ -83,10 +83,8 @@ public class TrendChartService {
 
         return dataSet;
     }
-    /**
-     * 创建JFreeChart对象
-     * @return chart
-     */
+
+
     public static ByteArrayOutputStream createChart() throws IOException {
         StandardChartTheme standardChartTheme = new StandardChartTheme("CN"); //创建主题样式
         standardChartTheme.setExtraLargeFont(new Font("隶书", Font.BOLD, 20)); //设置标题字体
