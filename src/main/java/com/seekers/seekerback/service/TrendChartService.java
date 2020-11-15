@@ -85,7 +85,7 @@ public class TrendChartService {
     }
 
 
-    public static ByteArrayOutputStream createChart() throws IOException {
+    public static ByteArrayOutputStream getTrendChart() throws IOException {
         StandardChartTheme standardChartTheme = new StandardChartTheme("CN"); //创建主题样式
         standardChartTheme.setExtraLargeFont(new Font("隶书", Font.BOLD, 20)); //设置标题字体
         standardChartTheme.setRegularFont(new Font("宋体", Font.PLAIN, 15)); //设置图例的字体
@@ -105,7 +105,7 @@ public class TrendChartService {
 
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ChartUtilities.writeChartAsJPEG(outputStream, chart, 600, 400);
+        ChartUtilities.writeChartAsJPEG(outputStream, chart, 1000, 1000);
 
         return outputStream;
     }
