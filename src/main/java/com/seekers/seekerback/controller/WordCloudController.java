@@ -19,15 +19,17 @@ import java.io.*;
 @RestController
 public class WordCloudController {
     @GetMapping(value = "/wordcloud", produces = MediaType.IMAGE_PNG_VALUE)
-    public byte[] getWordCloud(@RequestParam("id") String id) throws IOException {
-        Repository.store(id);
+    public byte[] getWordCloud(@RequestParam("id") String id,
+                               @RequestParam("uuid") String uuid) throws IOException {
+        Repository.store(id, uuid);
         ByteArrayOutputStream outputStream = null;
         outputStream = WordCloudService.getGraph();
         return outputStream.toByteArray();
     }
 
     @GetMapping(value = "/emojicloud", produces = MediaType.IMAGE_PNG_VALUE)
-    public byte[] getEmojiCloud() throws IOException {
+    public byte[] getEmojiCloud(@RequestParam("id") String id,
+                                @RequestParam("uuid") String uuid) throws IOException {
         ByteArrayOutputStream outputStream = null;
         outputStream = EmojiCloudService.getEmojiCloudGraph();
         return outputStream.toByteArray();

@@ -26,7 +26,7 @@ public class Repository {
     private static ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
 
 
-    private static boolean insertIntoES(String inputData){
+    private static boolean insertIntoES(String inputData, String databaseName){
         Map<String, Object> inputJSON = JSON.parseObject(inputData);
         List<Map<String, Object>> textList = (List<Map<String, Object>>) inputJSON.get("data");
         List<String> idList = new ArrayList<>();
@@ -36,17 +36,17 @@ public class Repository {
         }
         LOGGER.info(idList.toString());
         LOGGER.info(textList.toString());
-        boolean result = iSearchService.bulkUpsert("twitter", idList, textList);
+        boolean result = iSearchService.bulkUpsert(databaseName, idList, textList);
         iSearchService.close();
         return result;
     }
 
-    public static boolean store(String id){
+    public static boolean store(String id, String uuid){
         Crawler crawler = new Crawler(id);
         crawler.setMaxResults("100");
         crawler.setCreatedTime();
         try {
-            boolean rs = insertIntoES(crawler.search());
+            boolean rs = insertIntoES(crawler.search(),id+uuid);
             LOGGER.info("Bulk upsert " + rs);
             return rs;
         } catch (IOException | URISyntaxException e) {
