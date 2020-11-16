@@ -1,5 +1,7 @@
 package com.seekers.seekerback.service;
 
+import com.seekers.seekerback.util.database.ISearchService;
+import com.seekers.seekerback.util.database.impl.SearchServiceImpl;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -10,9 +12,27 @@ import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class RelationGraphService {
-    public static ByteArrayOutputStream getGraph(){
+    public static ByteArrayOutputStream getGraph(String databaseid){
+        databaseid = "twitter";
+        //Fetch data from database
+        java.util.List<Map<String, Object>> text1_json = new ArrayList<>();
+
+        java.util.List<String> text3 = new ArrayList<>();
+
+        ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
+        List<String> result = iSearchService.idQuery(databaseid);
+        for (String e : result) {
+//            System.out.println(e);
+//            System.out.println(iSearchService.get("twitter", e));
+            text1_json.add(iSearchService.get(databaseid, e));
+        }
+
+
 
         //generate pie chart
         ByteArrayOutputStream fos_png = null;

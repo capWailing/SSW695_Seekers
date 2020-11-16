@@ -1,6 +1,7 @@
 package com.seekers.seekerback.controller;
 
 import com.seekers.seekerback.service.EmojiCloudService;
+import com.seekers.seekerback.service.RelationGraphService;
 import com.seekers.seekerback.service.Repository;
 import com.seekers.seekerback.service.WordCloudService;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class WordCloudController {
     public byte[] getWordCloud(@RequestParam("id") String id) throws IOException {
         Repository.store(id);
         ByteArrayOutputStream outputStream = null;
-        outputStream = WordCloudService.getGraph();
+        outputStream = WordCloudService.getGraph(id);
         return outputStream.toByteArray();
     }
 
@@ -32,6 +33,14 @@ public class WordCloudController {
         outputStream = EmojiCloudService.getEmojiCloudGraph();
         return outputStream.toByteArray();
     }
+
+    @GetMapping(value = "/relationgraph", produces = MediaType.IMAGE_PNG_VALUE)
+    public byte[] RelationGraph() throws IOException {
+        ByteArrayOutputStream outputStream = null;
+        outputStream = RelationGraphService.getGraph("twitter");
+        return outputStream.toByteArray();
+    }
+
 
 //    @DeleteMapping(value = "/delete")
 //    public void deleteData(){
