@@ -30,6 +30,7 @@ public class WordCloudService {
 //    }
 
     public static ByteArrayOutputStream getGraph(String databaseid) {
+//        databaseid = "twitter";
         //Fetch data from database
         List<Map<String, Object>> text1_json = new ArrayList<>();
 
