@@ -1,8 +1,6 @@
 package com.seekers.seekerback.controller;
 
-import com.seekers.seekerback.service.EmojiCloudService;
-import com.seekers.seekerback.service.Repository;
-import com.seekers.seekerback.service.WordCloudService;
+import com.seekers.seekerback.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +21,7 @@ public class WordCloudController {
                                @RequestParam("uuid") String uuid) throws IOException {
         Repository.store(id, uuid);
         ByteArrayOutputStream outputStream = null;
-        outputStream = WordCloudService.getGraph();
+        outputStream = WordCloudService.getGraph(id+uuid);
         return outputStream.toByteArray();
     }
 
@@ -31,7 +29,23 @@ public class WordCloudController {
     public byte[] getEmojiCloud(@RequestParam("id") String id,
                                 @RequestParam("uuid") String uuid) throws IOException {
         ByteArrayOutputStream outputStream = null;
-        outputStream = EmojiCloudService.getEmojiCloudGraph("twitter");
+        outputStream = EmojiCloudService.getEmojiCloudGraph(id+uuid);
+        return outputStream.toByteArray();
+    }
+
+    @GetMapping(value = "/trendchart", produces = MediaType.IMAGE_PNG_VALUE)
+    public byte[] getRelationGraph(@RequestParam("id") String id,
+                                @RequestParam("uuid") String uuid) throws IOException {
+        ByteArrayOutputStream outputStream = null;
+        outputStream = RelationGraphService.getGraph(id+uuid);
+        return outputStream.toByteArray();
+    }
+
+    @GetMapping(value = "/trendchart", produces = MediaType.IMAGE_PNG_VALUE)
+    public byte[] getTrendChart(@RequestParam("id") String id,
+                                @RequestParam("uuid") String uuid) throws IOException {
+        ByteArrayOutputStream outputStream = null;
+        outputStream = TrendChartService.getTrendChart(id+uuid);
         return outputStream.toByteArray();
     }
 
