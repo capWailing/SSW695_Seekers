@@ -29,18 +29,18 @@ public class WordCloudService {
 //        getGraph(sss);
 //    }
 
-    public static ByteArrayOutputStream getGraph() {
+    public static ByteArrayOutputStream getGraph(String databaseid) {
         //Fetch data from database
         List<Map<String, Object>> text1_json = new ArrayList<>();
 
         List<String> text3 = new ArrayList<>();
 
         ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
-        List<String> result = iSearchService.idQuery("twitter");
+        List<String> result = iSearchService.idQuery(databaseid);
         for (String e : result) {
 //            System.out.println(e);
 //            System.out.println(iSearchService.get("twitter", e));
-            text1_json.add(iSearchService.get("twitter", e));
+            text1_json.add(iSearchService.get(databaseid, e));
         }
 //        System.out.println(text1_json);
 
