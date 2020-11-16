@@ -31,7 +31,7 @@ public class WordCloudController {
     public byte[] getEmojiCloud(@RequestParam("id") String id,
                                 @RequestParam("uuid") String uuid) throws IOException {
         ByteArrayOutputStream outputStream = null;
-        outputStream = EmojiCloudService.getEmojiCloudGraph();
+        outputStream = EmojiCloudService.getEmojiCloudGraph("twitter");
         return outputStream.toByteArray();
     }
 
