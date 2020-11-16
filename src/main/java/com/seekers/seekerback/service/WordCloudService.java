@@ -29,18 +29,18 @@ public class WordCloudService {
 //        getGraph(sss);
 //    }
 
-    public static ByteArrayOutputStream getGraph() {
+    public static ByteArrayOutputStream getGraph(String databaseid) {
         //Fetch data from database
         List<Map<String, Object>> text1_json = new ArrayList<>();
 
         List<String> text3 = new ArrayList<>();
 
         ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
-        List<String> result = iSearchService.idQuery("twitter");
+        List<String> result = iSearchService.idQuery(databaseid);
         for (String e : result) {
 //            System.out.println(e);
 //            System.out.println(iSearchService.get("twitter", e));
-            text1_json.add(iSearchService.get("twitter", e));
+            text1_json.add(iSearchService.get(databaseid, e));
         }
 //        System.out.println(text1_json);
 
@@ -77,6 +77,7 @@ public class WordCloudService {
 
         wordCloud.setPadding(2);
         wordCloud.setBackground(new CircleBackground(300));
+        wordCloud.setBackgroundColor(new Color(0xffffff));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
         wordCloud.setFontScalar(new SqrtFontScalar(10,100));
         wordCloud.build(wordFrequencies);
