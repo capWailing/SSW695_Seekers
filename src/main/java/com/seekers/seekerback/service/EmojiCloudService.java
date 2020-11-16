@@ -41,6 +41,7 @@ public class EmojiCloudService {
 //            System.out.println(iSearchService.get("twitter", e));
             text1_json.add(iSearchService.get(db_id, e));
         }
+        System.out.println(result);
 
 
         iSearchService.close();
@@ -70,7 +71,7 @@ public class EmojiCloudService {
 
             //newStr = new String(e.get("text").toString().getBytes(), "UTF-8");
             m = r.matcher(e.get("text").toString());
-            System.out.println(e.get("text").toString());
+            //System.out.println(e.get("text").toString());
 //            System.out.println(m.find());
 
 
