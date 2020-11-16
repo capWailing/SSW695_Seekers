@@ -27,7 +27,7 @@ import com.seekers.seekerback.util.database.impl.SearchServiceImpl;
 
 public class EmojiCloudService {
 
-    public static List<WordFrequency> getEmojiFrequency () throws UnsupportedEncodingException {
+    public static List<WordFrequency> getEmojiFrequency (String db_id) throws UnsupportedEncodingException {
 
 
         List<Map<String, Object>> text1_json = new ArrayList<>();
@@ -35,12 +35,13 @@ public class EmojiCloudService {
         List<String> text3 = new ArrayList<>();
 
         ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
-        List<String> result = iSearchService.idQuery("twitter");
+        List<String> result = iSearchService.idQuery(db_id);
         for (String e : result) {
 //            System.out.println(e);
 //            System.out.println(iSearchService.get("twitter", e));
-            text1_json.add(iSearchService.get("twitter", e));
+            text1_json.add(iSearchService.get(db_id, e));
         }
+        System.out.println(result);
 
 
         iSearchService.close();
@@ -70,7 +71,7 @@ public class EmojiCloudService {
 
             //newStr = new String(e.get("text").toString().getBytes(), "UTF-8");
             m = r.matcher(e.get("text").toString());
-            System.out.println(e.get("text").toString());
+            //System.out.println(e.get("text").toString());
 //            System.out.println(m.find());
 
 
@@ -120,7 +121,7 @@ public class EmojiCloudService {
     }
 
 
-    public static ByteArrayOutputStream getEmojiCloudGraph() throws IOException {
+    public static ByteArrayOutputStream getEmojiCloudGraph(String db_id) throws IOException {
 
         //analyzer settings
 
@@ -131,7 +132,7 @@ public class EmojiCloudService {
 
         //load frequency using getEmojiFrequency, need to give id to it
 
-        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.loadWordFrequencies(getEmojiFrequency());
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.loadWordFrequencies(getEmojiFrequency(db_id));
                 //loadWordFrequencies(getEmojiFrequency(id));
 
         //new wordcloud object

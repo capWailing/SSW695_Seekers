@@ -30,7 +30,7 @@ public class WordCloudController {
     @GetMapping(value = "/emojicloud", produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] getEmojiCloud() throws IOException {
         ByteArrayOutputStream outputStream = null;
-        outputStream = EmojiCloudService.getEmojiCloudGraph();
+        outputStream = EmojiCloudService.getEmojiCloudGraph("twitter");
         return outputStream.toByteArray();
     }
 
