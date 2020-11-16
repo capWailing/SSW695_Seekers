@@ -17,7 +17,7 @@ public interface ISearchService {
 	 *               databaseName @param @return @author yzt @return
 	 *               boolean @throws
 	 */
-	public boolean createDatabase();
+	public boolean createDatabase(String dbName);
 
 	/**
 	 * 
@@ -28,6 +28,8 @@ public interface ISearchService {
 	 * @return
 	 */
 	public Map<String, Object> get(String database, String id);
+
+	public boolean indexExist(String dbName);
 
 	/**
 	 * 获取单篇(Json格式)

@@ -27,6 +27,9 @@ public class Repository {
 
 
     private static boolean insertIntoES(String inputData, String databaseName){
+        if (!iSearchService.indexExist(databaseName.toLowerCase())) {
+            iSearchService.createDatabase(databaseName.toLowerCase());
+        }
         Map<String, Object> inputJSON = JSON.parseObject(inputData);
         List<Map<String, Object>> textList = (List<Map<String, Object>>) inputJSON.get("data");
         List<String> idList = new ArrayList<>();
@@ -36,8 +39,8 @@ public class Repository {
         }
         LOGGER.info(idList.toString());
         LOGGER.info(textList.toString());
-        boolean result = iSearchService.bulkUpsert(databaseName, idList, textList);
-        iSearchService.close();
+        boolean result = iSearchService.bulkUpsert(databaseName.toLowerCase(), idList, textList);
+//        iSearchService.close();
         return result;
     }
 
@@ -46,6 +49,7 @@ public class Repository {
         crawler.setMaxResults("100");
         crawler.setCreatedTime();
         try {
+            LOGGER.info(crawler.search());
             boolean rs = insertIntoES(crawler.search(),id+uuid);
             LOGGER.info("Bulk upsert " + rs);
             return rs;

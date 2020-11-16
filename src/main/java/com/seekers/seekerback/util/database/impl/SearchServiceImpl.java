@@ -21,6 +21,7 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
+import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.MatchQueryBuilder;
@@ -111,7 +112,7 @@ public class SearchServiceImpl implements ISearchService {
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.indices(indices);
         QueryBuilder match = QueryBuilders.matchAllQuery();
-        sourceBuilder.query(match);
+        sourceBuilder.query(match).size(10000);
         searchRequest.source(sourceBuilder);
         SearchResponse response = null;
         try {
@@ -122,6 +123,7 @@ public class SearchServiceImpl implements ISearchService {
             for (int i = 0; i < count; i++) {
                 list.add(hits[i].getId());
             }
+            System.out.println(count);
             return list;
         } catch (IOException e) {
             e.printStackTrace();
@@ -140,8 +142,8 @@ public class SearchServiceImpl implements ISearchService {
         return deleteResponse.getId();
     }
 
-    public boolean createDatabase() {
-        CreateIndexRequest request = new CreateIndexRequest("twitter");
+    public boolean createDatabase(String dbName) {
+        CreateIndexRequest request = new CreateIndexRequest(dbName);
         request.settings(Settings.builder()
                 .put("index.number_of_shards", 3)
                 .put("index.number_of_replicas", 2)
@@ -153,7 +155,7 @@ public class SearchServiceImpl implements ISearchService {
                         "      \"type\": \"text\"\n" +
                         "    }," +
                         "      \"created_at\": {\n" +
-                        "      \"type\": \"time\"\n" +
+                        "      \"type\": \"date\"\n" +
                         "      }\n" +
                         "  }\n" +
                         "}",
@@ -219,6 +221,7 @@ public class SearchServiceImpl implements ISearchService {
                 return false;
             }
             LOGGER.info(bulkResponse.status().toString());
+            LOGGER.info(bulkResponse.buildFailureMessage());
             return bulkResponse.status().getStatus() != 0;
         } catch (IOException e) {
             LOGGER.info(e.getMessage());
@@ -234,6 +237,18 @@ public class SearchServiceImpl implements ISearchService {
         } catch (IOException e) {
             LOGGER.info(e.getMessage());
         }
+    }
+
+    public boolean indexExist(String dbName){
+        GetIndexRequest resquest = new GetIndexRequest(dbName);
+        boolean exists = false;
+        try {
+            exists = client.indices().exists(resquest, RequestOptions.DEFAULT);
+            LOGGER.info("Index " + dbName +" exists is " + exists);
+        } catch (IOException e) {
+            LOGGER.info(e.getMessage());
+        }
+        return exists;
     }
 
 }

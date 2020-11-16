@@ -21,7 +21,7 @@ public class WordCloudController {
                                @RequestParam("uuid") String uuid) throws IOException {
         Repository.store(id, uuid);
         ByteArrayOutputStream outputStream = null;
-        outputStream = WordCloudService.getGraph(id+uuid);
+        outputStream = WordCloudService.getGraph((id+uuid).toLowerCase());
         return outputStream.toByteArray();
     }
 
@@ -29,15 +29,15 @@ public class WordCloudController {
     public byte[] getEmojiCloud(@RequestParam("id") String id,
                                 @RequestParam("uuid") String uuid) throws IOException {
         ByteArrayOutputStream outputStream = null;
-        outputStream = EmojiCloudService.getEmojiCloudGraph(id+uuid);
+        outputStream = EmojiCloudService.getEmojiCloudGraph((id+uuid).toLowerCase());
         return outputStream.toByteArray();
     }
 
-    @GetMapping(value = "/trendchart", produces = MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(value = "/relationgraph", produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] getRelationGraph(@RequestParam("id") String id,
                                 @RequestParam("uuid") String uuid) throws IOException {
         ByteArrayOutputStream outputStream = null;
-        outputStream = RelationGraphService.getGraph(id+uuid);
+        outputStream = RelationGraphService.getGraph((id+uuid).toLowerCase());
         return outputStream.toByteArray();
     }
 
@@ -45,7 +45,7 @@ public class WordCloudController {
     public byte[] getTrendChart(@RequestParam("id") String id,
                                 @RequestParam("uuid") String uuid) throws IOException {
         ByteArrayOutputStream outputStream = null;
-        outputStream = TrendChartService.getTrendChart(id+uuid);
+        outputStream = TrendChartService.getTrendChart((id+uuid).toLowerCase());
         return outputStream.toByteArray();
     }
 
