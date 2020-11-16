@@ -1,10 +1,13 @@
 package com.seekers.seekerback.controller;
 
-import com.seekers.seekerback.entities.WordCloud;
+import com.seekers.seekerback.service.EmojiCloudService;
 import com.seekers.seekerback.service.Repository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.seekers.seekerback.service.WordCloudService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.*;
 
 /**
  * program: seeker-back
@@ -15,11 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class WordCloudController {
-
-    @PostMapping("/wordcloud")
-    public String getWordCloud(@RequestParam("id") String id){
+    @GetMapping(value = "/wordcloud", produces = MediaType.IMAGE_PNG_VALUE)
+    public byte[] getWordCloud(@RequestParam("id") String id) throws IOException {
         Repository.store(id);
-        WordCloud result = new WordCloud(id);
-        return result.getUrl();
+        ByteArrayOutputStream outputStream = null;
+        outputStream = WordCloudService.getGraph();
+        return outputStream.toByteArray();
     }
+
+    @GetMapping(value = "/emojicloud", produces = MediaType.IMAGE_PNG_VALUE)
+    public byte[] getEmojiCloud() throws IOException {
+        ByteArrayOutputStream outputStream = null;
+        outputStream = EmojiCloudService.getEmojiCloudGraph();
+        return outputStream.toByteArray();
+    }
+
+//    @DeleteMapping(value = "/delete")
+//    public void deleteData(){
+//
+//    }
 }

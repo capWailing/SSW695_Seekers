@@ -15,9 +15,7 @@ import com.kennycason.kumo.palette.ColorPalette;
 import com.kennycason.kumo.palette.LinearGradientColorPalette;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -29,7 +27,7 @@ import com.seekers.seekerback.util.database.impl.SearchServiceImpl;
 
 public class EmojiCloudService {
 
-    public static List<WordFrequency> getEmojiFrequency (int id) throws UnsupportedEncodingException {
+    public static List<WordFrequency> getEmojiFrequency () throws UnsupportedEncodingException {
 
 
         List<Map<String, Object>> text1_json = new ArrayList<>();
@@ -122,7 +120,7 @@ public class EmojiCloudService {
     }
 
 
-    public static String getEmojiCloudGraph(int id) throws IOException {
+    public static ByteArrayOutputStream getEmojiCloudGraph() throws IOException {
 
         //analyzer settings
 
@@ -133,7 +131,7 @@ public class EmojiCloudService {
 
         //load frequency using getEmojiFrequency, need to give id to it
 
-        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.loadWordFrequencies(getEmojiFrequency(id));
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.loadWordFrequencies(getEmojiFrequency());
                 //loadWordFrequencies(getEmojiFrequency(id));
 
         //new wordcloud object
@@ -150,24 +148,15 @@ public class EmojiCloudService {
         wordCloud.setPadding(2);
         //wordCloud.setBackground(new PixelBoundryBackground("backgrounds/whale_small.png"));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
-        wordCloud.setFontScalar(new LinearFontScalar(10, 40));
+        wordCloud.setFontScalar(new LinearFontScalar(10, 100));
 
         //build wordcloud with wordFrequencies at line 65
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("emoji_cloud_small.png");
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        wordCloud.writeToStreamAsPNG(outputStream);
+//        wordCloud.writeToFile("emoji_cloud_small.png");
 
-        return "url_emoji_cloud";
+        return outputStream;
     }
-
-
-
-
-
-    public static void main(String[] args) throws IOException{
-        getEmojiCloudGraph(0);
-        //getEmojiFrequency(0);
-
-    }
-
 
 }
