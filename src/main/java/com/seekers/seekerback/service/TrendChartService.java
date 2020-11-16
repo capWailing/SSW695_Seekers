@@ -22,7 +22,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 public class TrendChartService {
 
-    public static CategoryDataset createDataSet() {
+    public static CategoryDataset createDataSet(String db_id) {
 
 
 
@@ -31,11 +31,11 @@ public class TrendChartService {
         List<String> text3 = new ArrayList<>();
 
         ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
-        List<String> result = iSearchService.idQuery("twitter");
+        List<String> result = iSearchService.idQuery(db_id);
         for (String e : result) {
 //            System.out.println(e);
 //            System.out.println(iSearchService.get("twitter", e));
-            text1_json.add(iSearchService.get("twitter", e));
+            text1_json.add(iSearchService.get(db_id, e));
         }
 
 
@@ -58,15 +58,7 @@ public class TrendChartService {
 
             }
 
-
-
         }
-
-
-
-
-
-
 
         // 实例化DefaultCategoryDataset对象
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
@@ -85,7 +77,7 @@ public class TrendChartService {
     }
 
 
-    public static ByteArrayOutputStream getTrendChart() throws IOException {
+    public static ByteArrayOutputStream getTrendChart(String db_id) throws IOException {
         StandardChartTheme standardChartTheme = new StandardChartTheme("CN"); //创建主题样式
         standardChartTheme.setExtraLargeFont(new Font("隶书", Font.BOLD, 20)); //设置标题字体
         standardChartTheme.setRegularFont(new Font("宋体", Font.PLAIN, 15)); //设置图例的字体
@@ -96,7 +88,7 @@ public class TrendChartService {
                 "Tweet Trend Chart", //图表标题
                 "Date", //横轴标题
                 "tweet count",//纵轴标题
-                createDataSet(),//数据集合
+                createDataSet(db_id),//数据集合
                 PlotOrientation.VERTICAL, //图表方向
                 true,//是否显示图例标识
                 false,//是否显示tooltips
