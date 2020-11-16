@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 public class RelationGraphService {
     public static ByteArrayOutputStream getGraph(String databaseid) {
-        databaseid = "twitter";
+//        databaseid = "twitter";
 
         List<Map<String, Object>> text1_json = new ArrayList<>();
         List<String> text3 = new ArrayList<>();
