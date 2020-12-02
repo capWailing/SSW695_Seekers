@@ -1,6 +1,5 @@
 package com.seekers.seekerback.service;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.bg.CircleBackground;
@@ -11,40 +10,22 @@ import com.seekers.seekerback.util.database.ISearchService;
 import com.seekers.seekerback.util.database.impl.SearchServiceImpl;
 
 import java.awt.*;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.*;
-
-//业余
 
 public class WordCloudService {
-//    public static void main(String[] args) {
-//        String sss = "";
-//        getGraph(sss);
-//    }
-
     public static ByteArrayOutputStream getGraph(String databaseid) {
-//        databaseid = "twitter";
-        //Fetch data from database
         List<Map<String, Object>> text1_json = new ArrayList<>();
-
         List<String> text3 = new ArrayList<>();
 
         ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
         List<String> result = iSearchService.idQuery(databaseid);
         for (String e : result) {
-//            System.out.println(e);
-//            System.out.println(iSearchService.get("twitter", e));
             text1_json.add(iSearchService.get(databaseid, e));
         }
-//        System.out.println(text1_json);
-
         for (Map<String, Object> e : text1_json) {
             System.out.println(e.get("text"));
             text3.add(e.get("text").toString()
@@ -53,18 +34,7 @@ public class WordCloudService {
                     .replaceAll("http\\S+", "")
                     //time
                     .replaceAll("\\d:\\d\\dpmE", ""));
-            //stop word dictionary should be here
-
         }
-//        for (String e:text){
-//            text2= text2.concat(e);
-//            text2= text2.concat(" ");
-//        }
-//
-//        System.out.println(text2);
-//        text3.add(text2);
-
-        //Kumo API start from here, include frequency analyzer and image generate.
         List<String> stopword = new ArrayList<>();
         stopword.add("the");
 
