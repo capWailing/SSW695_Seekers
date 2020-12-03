@@ -16,10 +16,18 @@ import java.io.*;
 
 @RestController
 public class WordCloudController {
+
+    @GetMapping(value = "/restore")
+    public String restore(@RequestParam("id") String id,
+                          @RequestParam("uuid") String uuid) {
+        Repository.store(id, uuid);
+        return "200";
+    }
+
     @GetMapping(value = "/wordcloud", produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] getWordCloud(@RequestParam("id") String id,
                                @RequestParam("uuid") String uuid) throws IOException {
-        Repository.store(id, uuid);
+//        Repository.store(id, uuid);
         ByteArrayOutputStream outputStream = null;
         outputStream = WordCloudService.getGraph((id+uuid).toLowerCase());
         return outputStream.toByteArray();
