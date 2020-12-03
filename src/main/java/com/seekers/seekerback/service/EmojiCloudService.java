@@ -32,15 +32,16 @@ public class EmojiCloudService {
 
         List<Map<String, Object>> text1_json = new ArrayList<>();
 
-        List<String> text3 = new ArrayList<>();
+//        List<String> text3 = new ArrayList<>();
 
         ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
         List<String> result = iSearchService.idQuery(db_id);
         for (String e : result) {
 //            System.out.println(e);
-//            System.out.println(iSearchService.get("twitter", e));
+            System.out.println(iSearchService.get(db_id, e));
             text1_json.add(iSearchService.get(db_id, e));
         }
+        System.out.println("***********");
         System.out.println(result);
 
 
@@ -136,6 +137,9 @@ public class EmojiCloudService {
                 //loadWordFrequencies(getEmojiFrequency(id));
 
         //new wordcloud object
+
+
+
 
         final Dimension dimension = new Dimension(250, 250);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
