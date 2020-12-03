@@ -22,7 +22,7 @@ public class WordCloudController {
     public byte[] getWordCloud(@RequestParam("id") String id) throws IOException {
         Repository.store(id);
         ByteArrayOutputStream outputStream = null;
-        outputStream = WordCloudService.getGraph();
+        outputStream = WordCloudService.getGraph("twitter");
         return outputStream.toByteArray();
     }
 
