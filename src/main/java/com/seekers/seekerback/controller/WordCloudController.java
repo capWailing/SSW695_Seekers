@@ -18,10 +18,11 @@ import java.io.*;
 public class WordCloudController {
 
     @GetMapping(value = "/restore")
-    public String restore(@RequestParam("id") String id,
+    @ResponseStatus(HttpStatus.CREATED)
+    @CrossOrigin("*")
+    public void restore(@RequestParam("id") String id,
                           @RequestParam("uuid") String uuid) {
         Repository.store(id, uuid);
-        return "200";
     }
 
     @GetMapping(value = "/wordcloud", produces = MediaType.IMAGE_PNG_VALUE)
@@ -29,7 +30,7 @@ public class WordCloudController {
                                @RequestParam("uuid") String uuid) throws IOException {
 //        Repository.store(id, uuid);
         ByteArrayOutputStream outputStream = null;
-        outputStream = WordCloudService.getGraph((id+uuid).toLowerCase());
+        outputStream = WordCloudService.getGraph((id + uuid).toLowerCase());
         return outputStream.toByteArray();
     }
 
@@ -37,15 +38,15 @@ public class WordCloudController {
     public byte[] getEmojiCloud(@RequestParam("id") String id,
                                 @RequestParam("uuid") String uuid) throws IOException {
         ByteArrayOutputStream outputStream = null;
-        outputStream = EmojiCloudService.getEmojiCloudGraph((id+uuid).toLowerCase());
+        outputStream = EmojiCloudService.getEmojiCloudGraph((id + uuid).toLowerCase());
         return outputStream.toByteArray();
     }
 
     @GetMapping(value = "/relationgraph", produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] getRelationGraph(@RequestParam("id") String id,
-                                @RequestParam("uuid") String uuid) throws IOException {
+                                   @RequestParam("uuid") String uuid) throws IOException {
         ByteArrayOutputStream outputStream = null;
-        outputStream = RelationGraphService.getGraph((id+uuid).toLowerCase());
+        outputStream = RelationGraphService.getGraph((id + uuid).toLowerCase());
         return outputStream.toByteArray();
     }
 
@@ -53,12 +54,7 @@ public class WordCloudController {
     public byte[] getTrendChart(@RequestParam("id") String id,
                                 @RequestParam("uuid") String uuid) throws IOException {
         ByteArrayOutputStream outputStream = null;
-        outputStream = TrendChartService.getTrendChart((id+uuid).toLowerCase());
+        outputStream = TrendChartService.getTrendChart((id + uuid).toLowerCase());
         return outputStream.toByteArray();
     }
-
-//    @DeleteMapping(value = "/delete")
-//    public void deleteData(){
-//
-//    }
 }

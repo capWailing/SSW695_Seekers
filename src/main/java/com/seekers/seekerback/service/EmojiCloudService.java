@@ -26,99 +26,43 @@ import com.seekers.seekerback.util.database.ISearchService;
 import com.seekers.seekerback.util.database.impl.SearchServiceImpl;
 
 public class EmojiCloudService {
-
-    public static List<WordFrequency> getEmojiFrequency (String db_id) throws UnsupportedEncodingException {
-
-
+    public static List<WordFrequency> getEmojiFrequency(String db_id) throws UnsupportedEncodingException {
         List<Map<String, Object>> text1_json = new ArrayList<>();
-
-//        List<String> text3 = new ArrayList<>();
 
         ISearchService iSearchService = new SearchServiceImpl("localhost", 9200);
         List<String> result = iSearchService.idQuery(db_id);
         for (String e : result) {
-//            System.out.println(e);
-            System.out.println(iSearchService.get(db_id, e));
             text1_json.add(iSearchService.get(db_id, e));
         }
-        System.out.println("***********");
-        System.out.println(result);
-
 
         iSearchService.close();
-        //System.out.println(text1_json);
 
         String emojiRe = "[\\ud800\\udc00-\\udbff\\udfff\\ud800-\\udfff]";
         Pattern r = Pattern.compile(emojiRe);
         Matcher m;
 
-        //String newStr;
-
-        //String onlyEmoji = " ";
-
-
-
         Map<String, Integer> map = new HashMap<String, Integer>();
         int temp = 0;
 
         for (Map<String, Object> e : text1_json) {
-//            text3.add(e.get("text").toString()
-//                    .replaceAll("\\w*", "")
-//                    //.replaceAll("\\\\u[A-Z0-9]{4}\\\\u[A-Z0-9]{4}", "")
-//                    .replaceAll("[!\\\"#$%&'()*+,-./:;<=>?@\\\\\\\\\\\\[\\\\]^_`{|}~]*", "")
-//                    .replaceAll("[\\\\ud800\\\\udc00-\\\\udbff\\\\udfff\\\\ud800-\\\\udfff]", "")
-
-
-
-            //newStr = new String(e.get("text").toString().getBytes(), "UTF-8");
             m = r.matcher(e.get("text").toString());
-            //System.out.println(e.get("text").toString());
-//            System.out.println(m.find());
 
-
-            while(m.find()) {
-                //System.out.println("**********************");
-                //onlyEmoji = onlyEmoji + " " + m.group() + "l";
-
+            while (m.find()) {
                 if (map.get(m.group()) == null) {
                     map.put(m.group(), 1);
                 } else {
-                    temp = map.get(m.group())+1;
+                    temp = map.get(m.group()) + 1;
                     map.put(m.group(), temp);
-
                 }
             }
-
-            //text3.add(onlyEmoji);
-
         }
-
-
-//        System.out.println(text3);
-//        return text3;
-
-
-
-
         final List<WordFrequency> wordFrequencies = new ArrayList<>();
-
-
-        for (Map.Entry<String, Integer> entry: map.entrySet()) {
-
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
             String key = entry.getKey();
-
             Integer value = entry.getValue();
             wordFrequencies.add(new WordFrequency(key, value));
-
         }
-
-
-        System.out.println(wordFrequencies);
         return wordFrequencies;
-
-
-
-
     }
 
 
@@ -134,11 +78,9 @@ public class EmojiCloudService {
         //load frequency using getEmojiFrequency, need to give id to it
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.loadWordFrequencies(getEmojiFrequency(db_id));
-                //loadWordFrequencies(getEmojiFrequency(id));
+        //loadWordFrequencies(getEmojiFrequency(id));
 
         //new wordcloud object
-
-
 
 
         final Dimension dimension = new Dimension(250, 250);
